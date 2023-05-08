@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:take_note/screens/home_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
