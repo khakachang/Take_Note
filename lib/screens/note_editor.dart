@@ -19,9 +19,9 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
     TextEditingController _titleController = TextEditingController();
     TextEditingController _mainController = TextEditingController();
     return Scaffold(
-      backgroundColor: AppStyle.cardsColor[color_id],
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: AppStyle.cardsColor[color_id],
+        backgroundColor: Colors.white,
         elevation: 0.0,
         iconTheme: IconThemeData(color: Colors.black),
         title: Text(
@@ -65,8 +65,10 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
           ],
         ),
       ),
+
+      //Save Botton
       floatingActionButton: FloatingActionButton(
-        backgroundColor: AppStyle.accentColor,
+        backgroundColor: Colors.black,
         onPressed: () async {
           FirebaseFirestore.instance.collection("Notes").add({
             "note_title": _titleController.text,

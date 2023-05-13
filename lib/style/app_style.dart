@@ -3,8 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppStyle {
-  static Color bgColor = Color(0xFFe2e2ff);
-  static Color mainColor = Color(0xFF000633);
+  static Color bgColor = Color(0xFFFFFFFF);
+  static Color mainColor = Color(0xFFFFFFFF);
   static Color accentColor = Color(0xFF0065FF);
 
   //Card difference Color

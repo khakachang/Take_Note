@@ -14,10 +14,13 @@ class _NoteReaderScreenState extends State<NoteReaderScreen> {
   Widget build(BuildContext context) {
     int color_id = widget.doc['code_id'];
     return Scaffold(
-      backgroundColor: AppStyle.cardsColor[color_id],
+      backgroundColor: AppStyle.mainColor,
       appBar: AppBar(
-        backgroundColor: AppStyle.cardsColor[color_id],
+        backgroundColor: Colors.white,
         elevation: 0.0,
+        leading: BackButton(
+          color: Colors.black,
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
