@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:take_note/screens/note_editor.dart';
 import 'package:take_note/screens/note_reader.dart';
@@ -19,6 +20,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: AppStyle.mainColor,
       appBar: AppBar(
+        //To remove gray status bar
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+        ),
         elevation: 0.0,
         title: Text(
           "Take Note",
