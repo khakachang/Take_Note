@@ -34,14 +34,14 @@ Widget noteCard(Function()? onTap, QueryDocumentSnapshot doc) {
           ),
           Text(
             doc["creation_date"],
-            style: AppStyle.dateTitle,
+            style: TextStyle(color: Colors.black45),
           ),
           SizedBox(
             height: 8.0,
           ),
           Text(
             doc["note_content"],
-            style: AppStyle.mainContent,
+            style: TextStyle(color: Colors.black45),
             // overflow: TextOverflow.ellipsis,
           ),
         ],
