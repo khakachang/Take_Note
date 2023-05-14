@@ -7,7 +7,14 @@ Widget noteCard(Function()? onTap, QueryDocumentSnapshot doc) {
     onTap: onTap,
     child: Container(
       padding: EdgeInsets.all(8.0),
-      margin: EdgeInsets.all(8.0),
+      //Gridview Margin
+      // margin: EdgeInsets.all(4.0),
+      margin: EdgeInsets.only(
+        left: 2,
+        right: 2,
+        top: 2,
+        bottom: 2,
+      ),
       decoration: BoxDecoration(
           color: AppStyle.mainColor,
           borderRadius: BorderRadius.circular(8.0),
@@ -35,7 +42,7 @@ Widget noteCard(Function()? onTap, QueryDocumentSnapshot doc) {
           Text(
             doc["note_content"],
             style: AppStyle.mainContent,
-            overflow: TextOverflow.ellipsis,
+            // overflow: TextOverflow.ellipsis,
           ),
         ],
       ),

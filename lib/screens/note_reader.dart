@@ -23,6 +23,7 @@ class _NoteReaderScreenState extends State<NoteReaderScreen> {
         ),
       ),
       body: Padding(
+        //Inside Note Padding
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

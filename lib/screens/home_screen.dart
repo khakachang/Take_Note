@@ -33,22 +33,30 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: AppStyle.mainColor,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        //GridView Paddding
+        padding: EdgeInsets.only(
+          left: 3,
+          right: 3,
+        ),
+
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Your recent Notes",
-              style: GoogleFonts.roboto(
-                color: Colors.black45,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Text(
+                "Your recent Notes",
+                style: GoogleFonts.roboto(
+                  color: Colors.black45,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
               ),
             ),
-            SizedBox(
-              height: 20.0,
-            ),
+            // SizedBox(
+            //   height: 20.0,
+            // ),
 
             //Notes Grid view
             Expanded(
