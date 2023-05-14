@@ -42,7 +42,7 @@ Widget noteCard(Function()? onTap, QueryDocumentSnapshot doc) {
           Text(
             doc["note_content"],
             style: TextStyle(color: Colors.black45),
-            // overflow: TextOverflow.ellipsis,
+            overflow: TextOverflow.visible,
           ),
         ],
       ),
