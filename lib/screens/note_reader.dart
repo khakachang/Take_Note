@@ -24,7 +24,11 @@ class _NoteReaderScreenState extends State<NoteReaderScreen> {
       ),
       body: Padding(
         //Inside Note Padding
-        padding: EdgeInsets.all(16.0),
+        // padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.only(
+          left: 16,
+          right: 16,
+        ),
         child: SingleChildScrollView(
           //Wrap in SingleChildScrollView To make the Column Scrollable
           child: Column(
