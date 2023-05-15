@@ -34,6 +34,9 @@ class _NoteReaderScreenState extends State<NoteReaderScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(
+                height: 28.0,
+              ),
               Text(
                 widget.doc["note_title"],
                 style: AppStyle.mainTitle,

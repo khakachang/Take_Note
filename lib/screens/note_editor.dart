@@ -34,38 +34,44 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
           left: 16,
           right: 16,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              controller: _titleController,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Note Title',
+        child: SingleChildScrollView(
+          //Wrap in SingleChildScrollView To make the Column Scrollable
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 28.0,
               ),
-              style: AppStyle.mainTitle,
-            ),
-            SizedBox(
-              height: 8.0,
-            ),
-            Text(
-              date,
-              style: AppStyle.dateTitle,
-            ),
-            SizedBox(
-              height: 28.0,
-            ),
-            TextField(
-              controller: _mainController,
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Note Content',
+              TextField(
+                controller: _titleController,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Note Title',
+                ),
+                style: AppStyle.mainTitle,
               ),
-              style: AppStyle.mainContent,
-            ),
-          ],
+              SizedBox(
+                height: 8.0,
+              ),
+              Text(
+                date,
+                style: AppStyle.dateTitle,
+              ),
+              SizedBox(
+                height: 28.0,
+              ),
+              TextField(
+                controller: _mainController,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Note Content',
+                ),
+                style: AppStyle.mainContent,
+              ),
+            ],
+          ),
         ),
       ),
 
