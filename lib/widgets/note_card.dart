@@ -7,8 +7,6 @@ Widget noteCard(Function()? onTap, QueryDocumentSnapshot doc) {
     onTap: onTap,
     child: Container(
       padding: EdgeInsets.all(8.0),
-      //Gridview Margin
-      // margin: EdgeInsets.all(4.0),
       margin: EdgeInsets.only(
         left: 2,
         right: 2,
@@ -16,12 +14,13 @@ Widget noteCard(Function()? onTap, QueryDocumentSnapshot doc) {
         bottom: 2,
       ),
       decoration: BoxDecoration(
-          color: AppStyle.mainColor,
-          borderRadius: BorderRadius.circular(8.0),
-          border: Border.all(
-            color: Colors.black26,
-            width: 0.5,
-          )),
+        color: AppStyle.mainColor,
+        borderRadius: BorderRadius.circular(8.0),
+        border: Border.all(
+          color: Colors.black26,
+          width: 0.5,
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -42,7 +41,8 @@ Widget noteCard(Function()? onTap, QueryDocumentSnapshot doc) {
           Text(
             doc["note_content"],
             style: TextStyle(color: Colors.black45),
-            overflow: TextOverflow.visible, //Need to be corrected
+            maxLines: 12, // Set your desired maximum number of lines
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),

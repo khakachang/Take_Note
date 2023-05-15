@@ -6,6 +6,7 @@ import 'package:take_note/screens/note_editor.dart';
 import 'package:take_note/screens/note_reader.dart';
 import 'package:take_note/style/app_style.dart';
 import 'package:take_note/widgets/note_card.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -70,21 +71,43 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   }
                   if (snapshot.hasData) {
-                    return GridView(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2),
-                      children: snapshot.data!.docs
-                          .map((note) => noteCard(() {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          NoteReaderScreen(note),
-                                    ));
-                              }, note))
-                          .toList(),
+                    // return GridView(
+
+                    //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    //       crossAxisCount: 2),
+                    //   children: snapshot.data!.docs
+                    //       .map((note) => noteCard(() {
+                    //             Navigator.push(
+                    //                 context,
+                    //                 MaterialPageRoute(
+                    //                   builder: (context) =>
+                    //                       NoteReaderScreen(note),
+                    //                 ));
+                    //           }, note))
+                    //       .toList(),
+                    // );
+                    return StaggeredGridView.count(
+                      crossAxisCount: 2, // Number of columns in the grid
+                      staggeredTiles: snapshot.data!.docs.map((note) {
+                        // Generate StaggeredTile for each note item
+                        return StaggeredTile.fit(1);
+                      }).toList(),
+                      children: snapshot.data!.docs.map((note) {
+                        // Generate widgets for each note item
+                        return noteCard(
+                          () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => NoteReaderScreen(note),
+                              ),
+                            );
+                          },
+                          note,
+                        );
+                      }).toList(),
                     );
-                  }
+                  } //end here
 
                   return Text(
                     "There's no Notes",
