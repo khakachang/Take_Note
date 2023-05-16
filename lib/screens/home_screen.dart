@@ -43,8 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Padding(
         //GridView Paddding
         padding: EdgeInsets.only(
-          left: 3,
-          right: 3,
+          left: 5,
+          right: 5,
         ),
 
         child: Column(

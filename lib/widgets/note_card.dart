@@ -8,10 +8,10 @@ Widget noteCard(Function()? onTap, QueryDocumentSnapshot doc) {
     child: Container(
       padding: EdgeInsets.all(8.0),
       margin: EdgeInsets.only(
-        left: 2,
-        right: 2,
-        top: 2,
-        bottom: 2,
+        left: 4,
+        right: 4,
+        top: 4,
+        bottom: 4,
       ),
       decoration: BoxDecoration(
         color: AppStyle.mainColor,
