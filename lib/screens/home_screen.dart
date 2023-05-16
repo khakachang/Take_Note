@@ -32,7 +32,14 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         centerTitle: true,
         backgroundColor: AppStyle.mainColor,
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
       ),
+      drawer: Drawer(
+          child: ListView(
+        children: [],
+      )),
       body: Padding(
         //GridView Paddding
         padding: EdgeInsets.only(
