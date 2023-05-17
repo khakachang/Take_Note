@@ -19,20 +19,22 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppStyle.mainColor,
       appBar: AppBar(
         //To remove gray status bar
-        systemOverlayStyle: const SystemUiOverlayStyle(
+
+        systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.light,
         ),
         elevation: 0.0,
-        title: Text(
+        title: const Text(
           "Take Note",
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
-        backgroundColor: AppStyle.mainColor,
-        iconTheme: IconThemeData(
+        backgroundColor: Colors.transparent,
+        iconTheme: const IconThemeData(
           color: Colors.black,
         ),
       ),
@@ -42,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
       )),
       body: Padding(
         //GridView Paddding
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           left: 5,
           right: 5,
         ),
