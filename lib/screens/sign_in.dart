@@ -19,6 +19,10 @@ class _SignInState extends State<SignIn> {
         statusBarBrightness: Brightness.light,
       ),
       child: Container(
+        // padding: EdgeInsets.only(
+        //   left: 50,
+        //   right: 50,
+        // ),
         decoration: BoxDecoration(
           color: Colors.white,
         ),
@@ -64,10 +68,32 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
             ),
-            ElevatedButton(
-              // style: ButtonStyle(shadowColor: ),
-              onPressed: () {},
-              child: Text("Continue with Google"),
+            SizedBox(
+              height: 40,
+              width: double.infinity,
+            ),
+            Container(
+              height: 50,
+              margin: EdgeInsets.only(left: 50, right: 50),
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                    elevation: 3,
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.black,
+                    minimumSize: Size(double.infinity, 50)),
+                onPressed: () {},
+                icon: Image.asset(
+                  "images/google.png",
+                  width: 25,
+                  height: 25,
+                ),
+                label: Text(
+                  "Continue with Google",
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ),
             )
           ],
         ),
