@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:take_note/provider/google_sign_in.dart';
 import 'package:take_note/style/app_style.dart';
 
 class SignIn extends StatefulWidget {
@@ -81,7 +83,11 @@ class _SignInState extends State<SignIn> {
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.black,
                     minimumSize: Size(double.infinity, 50)),
-                onPressed: () {},
+                onPressed: () {
+                  final provider =
+                      Provider.of<GoogleSignInProvider>(context, listen: false);
+                  provider.googleLogin();
+                },
                 icon: Image.asset(
                   "images/google.png",
                   width: 25,
