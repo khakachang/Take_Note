@@ -70,13 +70,16 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 40,
-              width: double.infinity,
-            ),
+            // SizedBox(
+            //   height: 300,
+            //   width: double.infinity,
+            // ),
             Container(
-              height: 50,
-              margin: EdgeInsets.only(left: 50, right: 50),
+              margin: EdgeInsets.only(
+                top: 250,
+                left: 50,
+                right: 50,
+              ),
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                     elevation: 3,
