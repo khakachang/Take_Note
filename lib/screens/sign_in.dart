@@ -89,7 +89,7 @@ class _SignInState extends State<SignIn> {
                 onPressed: () {
                   final provider =
                       Provider.of<GoogleSignInProvider>(context, listen: false);
-                  provider.googleLogin();
+                  provider.googleLogin(context);
                 },
                 icon: Image.asset(
                   "images/google.png",

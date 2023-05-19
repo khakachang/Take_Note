@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:take_note/screens/note_editor.dart';
 import 'package:take_note/screens/note_reader.dart';
+import 'package:take_note/screens/sign_in.dart';
 import 'package:take_note/style/app_style.dart';
 import 'package:take_note/widgets/note_card.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -17,6 +18,37 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  //Sign out Function
+  Future<void> _signOut() async {
+    final confirmed = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Sign Out'),
+        content: Text('Are you sure you want to sign out?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text('Sign Out'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != null && confirmed) {
+      await FirebaseAuth.instance.signOut();
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => SignIn()),
+      );
+    }
+  }
+
+  //Sign out Function
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
@@ -26,9 +58,14 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              radius: 15,
-              backgroundImage: NetworkImage(user.photoURL!),
+            child: GestureDetector(
+              onTap: () {
+                _signOut();
+              },
+              child: CircleAvatar(
+                radius: 15,
+                backgroundImage: NetworkImage(user.photoURL!),
+              ),
             ),
           )
         ],
