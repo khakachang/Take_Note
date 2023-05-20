@@ -1,38 +1,46 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:take_note/screens/home_screen.dart';
 
 class GoogleSignInProvider extends ChangeNotifier {
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-
+  final googleSignIn = GoogleSignIn();
   GoogleSignInAccount? _user;
   GoogleSignInAccount get user => _user!;
 
-  Future<void> googleLogin() async {
-    final googleUser = await _googleSignIn.signIn();
-    if (googleUser == null) return;
-    _user = googleUser;
+  Future<void> googleLogin(BuildContext context) async {
+    print('Starting Google Sign-In');
 
-    final googleAuth = await googleUser.authentication;
+    try {
+      final googleUser = await googleSignIn.signIn();
+      if (googleUser == null) {
+        print('Google Sign-In cancelled by user');
+        return;
+      }
 
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-    await FirebaseAuth.instance.signInWithCredential(credential);
-    notifyListeners();
-  }
+      print('Google User: ${googleUser.displayName}');
 
-  Future<void> googleLogout() async {
-    await FirebaseAuth.instance.signOut();
-    await _googleSignIn.signOut();
-    _user = null;
-    notifyListeners();
-  }
+      _user = googleUser;
 
-  Future<void> changeGoogleAccount(BuildContext context) async {
-    await googleLogout();
-    await googleLogin();
-    Navigator.of(context).popUntil((route) => route.isFirst);
+      final googleAuth = await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      print('Firebase Authentication successful');
+
+      // Navigate to the next page after successful authentication
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                HomeScreen()), // Replace 'NextPage' with your desired page
+      );
+    } catch (e) {
+      print('Firebase Authentication failed: $e');
+    }
   }
 }

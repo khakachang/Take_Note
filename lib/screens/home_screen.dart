@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_oauth/firebase_auth_oauth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:take_note/screens/note_editor.dart';
 import 'package:take_note/screens/note_reader.dart';
 import 'package:take_note/screens/sign_in.dart';
@@ -10,41 +12,54 @@ import 'package:take_note/style/app_style.dart';
 import 'package:take_note/widgets/note_card.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
+final GoogleSignIn _googleSignIn = GoogleSignIn();
+User? _user;
+
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  //Sign out Function
-  Future<void> _signOut() async {
-    final confirmed = await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Sign Out'),
-        content: Text('Are you sure you want to sign out?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: Text('Sign Out'),
-          ),
-        ],
-      ),
-    );
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  User? _user;
 
-    if (confirmed != null && confirmed) {
+  @override
+  void initState() {
+    super.initState();
+    _user = FirebaseAuth.instance.currentUser;
+  }
+
+  // Change Google Account
+  Future<void> _changeGoogleAccount() async {
+    try {
+      await _googleSignIn.signOut();
       await FirebaseAuth.instance.signOut();
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => SignIn()),
-      );
+      final result = await _googleSignIn.signIn();
+
+      if (result != null) {
+        final GoogleSignInAuthentication googleAuth =
+            await result.authentication;
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        await FirebaseAuth.instance.signInWithCredential(credential);
+
+        final updatedUser = FirebaseAuth.instance.currentUser;
+        if (updatedUser != null) {
+          setState(() {
+            _user = updatedUser;
+          });
+        }
+      }
+    } catch (e) {
+      print('Failed to change Google account: $e');
+      // Handle any error that occurred during the account change process
     }
   }
 
@@ -59,8 +74,9 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
-              onTap: () {
-                _signOut();
+              onTap: () async {
+                await _changeGoogleAccount();
+                Navigator.of(context).pop(true);
               },
               child: CircleAvatar(
                 radius: 15,
