@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:take_note/style/app_style.dart';
 
@@ -81,9 +82,18 @@ class _NoteReaderScreenState extends State<NoteReaderScreen> {
 
   void _deleteNote() async {
     try {
+      final user = FirebaseAuth.instance.currentUser;
+      print("Authenticated User UID: ${user?.uid}");
+      print("User ID from Document Path: ${user?.uid}");
+
+      print("Document Path: Users/${user?.uid}/Notes/${widget.doc.id}");
+      print("Note ID: ${widget.doc.id}");
+
       await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(user?.uid)
           .collection("Notes")
-          .doc(widget.doc.id) // Use the document ID of the note
+          .doc(widget.doc.id)
           .delete();
 
       // Show a snackbar or any other notification indicating successful deletion
