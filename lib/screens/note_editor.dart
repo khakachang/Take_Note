@@ -4,18 +4,33 @@ import 'package:take_note/style/app_style.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class NoteEditorScreen extends StatefulWidget {
-  const NoteEditorScreen({super.key});
+  final QueryDocumentSnapshot?
+      doc; // Document snapshot for editing, null for creating
+
+  const NoteEditorScreen({Key? key, this.doc}) : super(key: key);
 
   @override
   State<NoteEditorScreen> createState() => _NoteEditorScreenState();
 }
 
 class _NoteEditorScreenState extends State<NoteEditorScreen> {
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _mainController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // If a document snapshot is provided, populate the text fields with its data for editing
+    if (widget.doc != null) {
+      _titleController.text = widget.doc!["note_title"];
+      _mainController.text = widget.doc!["note_content"];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     String date = DateTime.now().toString();
-    TextEditingController _titleController = TextEditingController();
-    TextEditingController _mainController = TextEditingController();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -23,7 +38,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
         elevation: 0.0,
         iconTheme: IconThemeData(color: Colors.black),
         title: Text(
-          "Add a new Note",
+          widget.doc != null ? "Edit Note" : "Add a new Note",
           style: TextStyle(color: Colors.black),
         ),
       ),
@@ -33,7 +48,6 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
           right: 16,
         ),
         child: SingleChildScrollView(
-          //Wrap in SingleChildScrollView To make the Column Scrollable
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -73,7 +87,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
         ),
       ),
 
-      //Save Botton
+      //Save Button
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: () async {
@@ -92,15 +106,22 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
                 // Add any other relevant user data
               });
 
-              // Create the note document under the user document
-              DocumentReference noteRef = userRef.collection("Notes").doc();
-              await noteRef.set({
-                "note_title": _titleController.text,
-                "creation_date": date,
-                "note_content": _mainController.text,
-              });
+              if (widget.doc != null) {
+                // Update the existing note document
+                await widget.doc!.reference.update({
+                  "note_title": _titleController.text,
+                  "note_content": _mainController.text,
+                });
+              } else {
+                // Create a new note document under the user document
+                DocumentReference noteRef = userRef.collection("Notes").doc();
+                await noteRef.set({
+                  "note_title": _titleController.text,
+                  "creation_date": date,
+                  "note_content": _mainController.text,
+                });
+              }
 
-              print(noteRef.id);
               Navigator.pop(context);
             } catch (e) {
               print("Error writing note: $e");
