@@ -79,27 +79,32 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
         onPressed: () async {
           User? user = FirebaseAuth.instance.currentUser;
           if (user != null) {
-            String userId = user.uid;
-            DocumentReference userRef =
-                FirebaseFirestore.instance.collection("Users").doc(userId);
+            try {
+              String userId = user.uid;
+              DocumentReference userRef =
+                  FirebaseFirestore.instance.collection("Users").doc(userId);
 
-            // Create or update the user document with relevant data
-            await userRef.set({
-              "name": user.displayName,
-              "email": user.email,
-              // Add any other relevant user data
-            });
+              // Create or update the user document with relevant data
+              await userRef.set({
+                "name": user.displayName,
+                "email": user.email,
 
-            // Create the note document under the user document
-            DocumentReference noteRef = userRef.collection("Notes").doc();
-            await noteRef.set({
-              "note_title": _titleController.text,
-              "creation_date": date,
-              "note_content": _mainController.text,
-            });
+                // Add any other relevant user data
+              });
 
-            print(noteRef.id);
-            Navigator.pop(context);
+              // Create the note document under the user document
+              DocumentReference noteRef = userRef.collection("Notes").doc();
+              await noteRef.set({
+                "note_title": _titleController.text,
+                "creation_date": date,
+                "note_content": _mainController.text,
+              });
+
+              print(noteRef.id);
+              Navigator.pop(context);
+            } catch (e) {
+              print("Error writing note: $e");
+            }
           } else {
             print("User not authenticated");
           }
