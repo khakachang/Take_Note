@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
         await FirebaseAuth.instance.signInWithCredential(credential);
 
         final updatedUser = FirebaseAuth.instance.currentUser;
-        if (updatedUser != null) {
+        if (mounted && updatedUser != null) {
           setState(() {
             _user = updatedUser;
           });
@@ -74,9 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
-              onTap: () async {
-                await _changeGoogleAccount();
-                Navigator.of(context).pop(true);
+              onTap: () {
+                _changeGoogleAccount();
               },
               child: CircleAvatar(
                 radius: 15,
