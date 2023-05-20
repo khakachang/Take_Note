@@ -12,7 +12,6 @@ class NoteReaderScreen extends StatefulWidget {
 class _NoteReaderScreenState extends State<NoteReaderScreen> {
   @override
   Widget build(BuildContext context) {
-    int color_id = widget.doc['code_id'];
     return Scaffold(
       backgroundColor: AppStyle.mainColor,
       appBar: AppBar(

@@ -1,8 +1,7 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:take_note/style/app_style.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class NoteEditorScreen extends StatefulWidget {
   const NoteEditorScreen({super.key});
@@ -14,7 +13,6 @@ class NoteEditorScreen extends StatefulWidget {
 class _NoteEditorScreenState extends State<NoteEditorScreen> {
   @override
   Widget build(BuildContext context) {
-    int color_id = Random().nextInt(AppStyle.cardsColor.length);
     String date = DateTime.now().toString();
     TextEditingController _titleController = TextEditingController();
     TextEditingController _mainController = TextEditingController();
@@ -79,16 +77,32 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: () async {
-          FirebaseFirestore.instance.collection("Notes").add({
-            "note_title": _titleController.text,
-            "creation_date": date,
-            "note_content": _mainController.text,
-            "code_id": color_id
-          }).then((value) {
-            print(value.id);
+          User? user = FirebaseAuth.instance.currentUser;
+          if (user != null) {
+            String userId = user.uid;
+            DocumentReference userRef =
+                FirebaseFirestore.instance.collection("Users").doc(userId);
+
+            // Create or update the user document with relevant data
+            await userRef.set({
+              "name": user.displayName,
+              "email": user.email,
+              // Add any other relevant user data
+            });
+
+            // Create the note document under the user document
+            DocumentReference noteRef = userRef.collection("Notes").doc();
+            await noteRef.set({
+              "note_title": _titleController.text,
+              "creation_date": date,
+              "note_content": _mainController.text,
+            });
+
+            print(noteRef.id);
             Navigator.pop(context);
-          }).catchError(
-              (error) => print("Failed Failed to add new Note due to $error"));
+          } else {
+            print("User not authenticated");
+          }
         },
         child: Icon(Icons.save),
       ),

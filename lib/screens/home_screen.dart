@@ -14,6 +14,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 final GoogleSignIn _googleSignIn = GoogleSignIn();
 User? _user;
+late String userId; // Declare userId variable
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -25,12 +26,28 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   User? _user;
+  late String userId; // Declare userId variable
 
   @override
   void initState() {
     super.initState();
-    _user = FirebaseAuth.instance.currentUser;
+    retrieveUserId(); // Call the function to retrieve the user ID
   }
+
+  Future<void> retrieveUserId() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      setState(() {
+        userId = user.uid;
+      });
+    }
+  }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _user = FirebaseAuth.instance.currentUser;
+  // }
 
   // Change Google Account
   Future<void> _changeGoogleAccount() async {
@@ -126,15 +143,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            // SizedBox(
-            //   height: 20.0,
-            // ),
 
             //Notes Grid view
+
+            // User user = FirebaseAuth.instance.currentUser;
+            // String userId = user.uid;
+
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream:
-                    FirebaseFirestore.instance.collection("Notes").snapshots(),
+                stream: FirebaseFirestore.instance
+                    .collection("Users")
+                    .doc(userId)
+                    .collection("Notes")
+                    .snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
@@ -142,29 +163,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   }
                   if (snapshot.hasData) {
-                    // return GridView(
-
-                    //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    //       crossAxisCount: 2),
-                    //   children: snapshot.data!.docs
-                    //       .map((note) => noteCard(() {
-                    //             Navigator.push(
-                    //                 context,
-                    //                 MaterialPageRoute(
-                    //                   builder: (context) =>
-                    //                       NoteReaderScreen(note),
-                    //                 ));
-                    //           }, note))
-                    //       .toList(),
-                    // );
+                    if (snapshot.data!.docs.isEmpty) {
+                      return Text(
+                        "There are no notes",
+                        style: TextStyle(color: Colors.black),
+                      );
+                    }
                     return StaggeredGridView.count(
-                      crossAxisCount: 2, // Number of columns in the grid
+                      crossAxisCount: 2,
                       staggeredTiles: snapshot.data!.docs.map((note) {
-                        // Generate StaggeredTile for each note item
                         return StaggeredTile.fit(1);
                       }).toList(),
                       children: snapshot.data!.docs.map((note) {
-                        // Generate widgets for each note item
                         return noteCard(
                           () {
                             Navigator.push(
@@ -178,11 +188,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       }).toList(),
                     );
-                  } //end here
+                  }
 
                   return Text(
-                    "There's no Notes",
-                    style: GoogleFonts.nunito(color: Colors.black),
+                    "Error retrieving notes",
+                    style: TextStyle(color: Colors.black),
                   );
                 },
               ),
