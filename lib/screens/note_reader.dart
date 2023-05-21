@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:take_note/screens/note_editor.dart';
 import 'package:take_note/style/app_style.dart';
 
 class NoteReaderScreen extends StatefulWidget {
@@ -25,23 +24,10 @@ class _NoteReaderScreenState extends State<NoteReaderScreen> {
         ),
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NoteEditorScreen(doc: widget.doc),
-                  ),
-                );
-              },
-              icon: Icon(
-                Icons.edit_outlined,
-                color: Colors.black,
-              )),
-          IconButton(
             onPressed: () {
               _showOptionsMenu(context);
             },
-            icon: Icon(Icons.delete_outline, color: Colors.black),
+            icon: Icon(Icons.more_vert, color: Colors.black),
           ),
         ],
       ),
