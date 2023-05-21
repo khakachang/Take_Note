@@ -24,10 +24,14 @@ class _NoteReaderScreenState extends State<NoteReaderScreen> {
         ),
         actions: [
           IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.edit_outlined, color: Colors.black),
+          ),
+          IconButton(
             onPressed: () {
               _showOptionsMenu(context);
             },
-            icon: Icon(Icons.more_vert, color: Colors.black),
+            icon: Icon(Icons.delete_outline, color: Colors.black),
           ),
         ],
       ),
