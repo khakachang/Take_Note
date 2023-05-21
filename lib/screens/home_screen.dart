@@ -118,9 +118,51 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       drawer: Drawer(
-          child: ListView(
-        children: [],
-      )),
+        child: Container(
+          padding: EdgeInsets.all(18.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    "images/AppLogoForDrawer.png",
+                    height: 50,
+                  )),
+              Divider(),
+              Text(
+                "Developed by",
+                style: TextStyle(
+                  fontWeight: FontWeight.w900,
+                  color: Colors.black54,
+                  letterSpacing: 4.0,
+                ),
+              ),
+              Text(
+                "Boyar Debbarma",
+                style: TextStyle(
+                  fontWeight: FontWeight.w200,
+                  color: Colors.black,
+                ),
+              ),
+              Text(
+                "Bikash Debbarma",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w200,
+                ),
+              ),
+              Text(
+                "Khakachang Tripura",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w200,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       body: Padding(
         //GridView Paddding
         padding: const EdgeInsets.only(

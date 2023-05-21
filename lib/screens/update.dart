@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:take_note/screens/home_screen.dart';
 import 'package:take_note/style/app_style.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -105,7 +106,13 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 "note_content": _mainController.text,
               });
 
-              Navigator.pop(context);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      HomeScreen(), // Replace HomePage with your actual home page widget
+                ),
+              );
             } catch (e) {
               print("Error updating note: $e");
             }
